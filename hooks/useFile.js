@@ -86,7 +86,7 @@ const useFile = () => {
         body: formData,
       });
 
-      const data = await res.json();
+      const data = await res?.json();
       if (!res?.status !== 200) {
         throw new Error(data?.message || 'SomethiNg went wrong');
       }
