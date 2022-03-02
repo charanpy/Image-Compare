@@ -2,11 +2,16 @@ import {
   RekognitionClient,
   CompareFacesCommand,
 } from '@aws-sdk/client-rekognition';
+
 import nextConnect from 'next-connect';
 import uploadFile from '../../../lib/multer';
 
 const faceRecognition = new RekognitionClient({
   region: 'ap-south-1',
+  credentials: {
+    accessKeyId: process.env.ACCESS_KEY_ID,
+    secretAccessKey: process.env.SECRET_ACCESS_KEY,
+  },
 });
 
 const handler = nextConnect({
