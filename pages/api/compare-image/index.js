@@ -44,8 +44,9 @@ handler.post(async (req, res) => {
       })
     );
 
+    console.log(data);
     return res.status(200).json({
-      matchedFaces: data.FaceMatches,
+      matchedFaces: data?.FaceMatches,
     });
   } catch (error) {
     console.log(error);
