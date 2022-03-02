@@ -83,14 +83,19 @@ const useFile = () => {
         method: 'POST',
         body: formData,
       });
+
       const data = await res.json();
 
+      if (!res.ok) {
+        throw new Error(data?.message || 'Somethig went wrong');
+      }
       setUploadFile((files) => ({
         ...files,
         responseData: !!data?.matchedFaces?.length,
       }));
       setLoading((loader) => !loader);
     } catch (error) {
+      notify(error?.message);
       setLoading((loader) => !loader);
     }
   };
