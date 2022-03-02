@@ -1,7 +1,7 @@
 import Head from 'next/head';
 
 const Seo = ({
-  ogTitle = 'Image Compare',
+  ogTitle = 'Face Compare',
   description = 'Detect and compare images',
   ogImage = '/vercel.svg',
 }) => {
@@ -9,7 +9,7 @@ const Seo = ({
     <Head>
       <meta charSet='utf-8' />
       <meta name='viewport' content='width=device-width, initial-scale=1.0' />
-      <title>Image Compare</title>
+      <title>Face Compare</title>
       <meta name='robots' content='index, follow' />
       <link rel='icon' href='/vercel.svg' />
       <meta name='author' content='Charan' />

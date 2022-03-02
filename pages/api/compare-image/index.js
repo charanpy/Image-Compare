@@ -33,7 +33,6 @@ handler.use(uploadFile.array('image', 2));
 handler.post(async (req, res) => {
   try {
     const files = req.files;
-
     const data = await faceRecognition.send(
       new CompareFacesCommand({
         SourceImage: {
@@ -49,8 +48,9 @@ handler.post(async (req, res) => {
       matchedFaces: data.FaceMatches,
     });
   } catch (error) {
+    console.log(error);
     return res.status(500).json({
-      message: error?.message || 'Something went wrong',
+      message: 'Unable to detect faces' || 'Something went wrong',
     });
   }
 });
