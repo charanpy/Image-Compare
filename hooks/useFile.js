@@ -87,10 +87,10 @@ const useFile = () => {
       });
 
       const data = await res.json();
-
-      if (!res?.ok) {
+      if (!res?.status !== 200) {
         throw new Error(data?.message || 'SomethiNg went wrong');
       }
+
       setUploadFile((files) => ({
         ...files,
         responseData: !!data?.matchedFaces?.length,
