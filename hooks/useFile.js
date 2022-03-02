@@ -89,8 +89,8 @@ const useFile = () => {
         ...files,
         responseData: !!data?.matchedFaces?.length,
       }));
+      setLoading((loader) => !loader);
     } catch (error) {
-    } finally {
       setLoading((loader) => !loader);
     }
   };
