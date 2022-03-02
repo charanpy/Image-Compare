@@ -58,7 +58,9 @@ const useFile = () => {
         const file = new File([res], 'imageSrc.jpg', { type: 'images/jpeg' });
         setImage(cardId, file);
       })
-      .catch((e) => {});
+      .catch((e) => {
+        notify('Unable to fetch image from provided URL');
+      });
   };
 
   const onHandleReset = () => {
