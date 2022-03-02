@@ -6,7 +6,10 @@ const Header = () => {
       <h1 className='text-gray-700 cursor-pointer text-xl ml-2 md:ml-0 md:text-2xl'>
         Image Compare
       </h1>
-      <a className='hover:text-sky-500 text-slate-500 cursor-pointer flex flex-row items-center'>
+      <a
+        href='https://github.com/charanpy/Image-Compare'
+        className='hover:text-sky-500 text-slate-500 cursor-pointer flex flex-row items-center'
+      >
         <Image src='/code.svg' width='24' height='24' alt='code' />
         <span className='mx-2'>Source Code</span>
       </a>
