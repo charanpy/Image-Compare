@@ -88,7 +88,7 @@ const useFile = () => {
 
       const data = await res.json();
 
-      if (!res.ok) {
+      if (!res?.ok) {
         throw new Error(data?.message || 'SomethiNg went wrong');
       }
       setUploadFile((files) => ({
