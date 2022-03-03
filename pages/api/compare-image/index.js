@@ -44,12 +44,10 @@ handler.post(async (req, res) => {
       })
     );
 
-    console.log(data);
     return res.status(200).json({
       matchedFaces: data?.FaceMatches,
     });
   } catch (error) {
-    console.log(error);
     return res.status(500).json({
       message: 'Unable to detect faces' || 'Something went wrong',
     });

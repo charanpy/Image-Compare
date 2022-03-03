@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import notify from '../utils/toast';
+import notify, { closeNotify } from '../utils/toast';
 
 const imageExt = ['jpg', 'jpeg', 'png'];
 
@@ -32,14 +32,21 @@ const useFile = () => {
     if (loading) return;
 
     const file = e.target.files;
+
     if (!file || !file?.length) {
-      return notify('Please select file');
+      return;
     }
+
     const fileExtension = file[0].type.split('/')[1];
 
     if (!imageExt.includes(fileExtension)) {
       return notify('Invalid file');
     }
+
+    const sizeInMB = (file[0]?.size / (1024 * 1024)).toFixed(2);
+
+    if (sizeInMB > 2.5) return notify('Image should be less than 2.5 MB');
+
     setImage(cardId, file[0]);
   };
 
@@ -74,22 +81,29 @@ const useFile = () => {
   const compareImage = async () => {
     if (loading) return;
     try {
-      console.log('hello');
       if (!image.length || image.length < 2) {
         return notify('Please Select Image');
       }
       setLoading((loader) => !loader);
       const formData = new FormData();
 
-      image.forEach((img, index) =>
-        formData.append('image', img, `face${index}`)
-      );
+      image.forEach((img, index) => formData.append('image', img));
+
+      if (responseData)
+        setUploadFile((files) => ({ ...files, responseData: null }));
+
+      closeNotify();
       const res = await fetch('/api/compare-image', {
         method: 'POST',
         body: formData,
       });
 
-      console.log(res);
+      if (res.status === 413) {
+        throw new Error(
+          'Image too large Please upload image which is less than 2.5MB'
+        );
+      }
+
       const data = await res?.json();
       if (!res?.ok) {
         throw new Error(data?.message || 'SomethiNg went wrong');
@@ -101,7 +115,6 @@ const useFile = () => {
       }));
       setLoading((loader) => !loader);
     } catch (error) {
-      console.log(error);
       notify(error?.message);
       setLoading((loader) => !loader);
     }
