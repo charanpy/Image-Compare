@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import Image from 'next/image';
 import notify from '../utils/toast';
 
 const imageExt = ['jpg', 'jpeg', 'png'];
@@ -75,20 +74,24 @@ const useFile = () => {
   const compareImage = async () => {
     if (loading) return;
     try {
+      console.log('hello');
       if (!image.length || image.length < 2) {
         return notify('Please Select Image');
       }
       setLoading((loader) => !loader);
       const formData = new FormData();
-      image.forEach((img) => formData.append('image', img));
+
+      image.forEach((img, index) =>
+        formData.append('image', img, `face${index}`)
+      );
       const res = await fetch('/api/compare-image', {
         method: 'POST',
         body: formData,
       });
 
+      console.log(res);
       const data = await res?.json();
-      console.log(data);
-      if (!res?.status !== 200) {
+      if (!res?.ok) {
         throw new Error(data?.message || 'SomethiNg went wrong');
       }
 
@@ -98,6 +101,7 @@ const useFile = () => {
       }));
       setLoading((loader) => !loader);
     } catch (error) {
+      console.log(error);
       notify(error?.message);
       setLoading((loader) => !loader);
     }
