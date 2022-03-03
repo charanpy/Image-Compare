@@ -12,12 +12,12 @@ const Card = ({
 }) => {
   const imageURL = useRef('');
 
-  const onHandleFetchImage = (cardId) => {
+  const onHandleFetchImage = (id) => {
     const url = imageURL?.current?.value;
 
     if (!url || !url.startsWith('http')) return notify('Invalid IMage URL');
 
-    fetchImage(url, cardId);
+    fetchImage(url, id);
   };
 
   return (

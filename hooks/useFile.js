@@ -34,16 +34,19 @@ const useFile = () => {
 
     const file = e.target.files;
 
+    // check file exists
     if (!file || !file?.length) {
       return;
     }
 
+    // check valid ext
     const fileExtension = file[0].type.split('/')[1];
 
     if (!imageExt.includes(fileExtension)) {
       return notify('Invalid file');
     }
 
+    // check image < 2.5MB
     const sizeInMB = (file[0]?.size / (1024 * 1024)).toFixed(2);
 
     if (sizeInMB > 2.5) return notify('Image should be less than 2.5 MB');
@@ -65,7 +68,7 @@ const useFile = () => {
         const file = new File([res], 'imageSrc.jpg', { type: 'images/jpeg' });
         setImage(cardId, file);
       })
-      .catch((e) => {
+      .catch(() => {
         notify('Unable to fetch image from provided URL');
       });
   };
@@ -85,20 +88,25 @@ const useFile = () => {
       if (!image.length || image.length < 2) {
         return notify('Please Select Image');
       }
+      // loading to true
       setLoading((loader) => !loader);
+
       const formData = new FormData();
+      image.forEach((img) => formData.append('image', img));
 
-      image.forEach((img, index) => formData.append('image', img));
-
+      // set prev responseData to null
       if (responseData)
         setUploadFile((files) => ({ ...files, responseData: null }));
 
+      // close existing toaster
       closeNotify();
+
       const res = await fetch('/api/compare-image', {
         method: 'POST',
         body: formData,
       });
 
+      // handle if payload too long
       if (res.status === 413) {
         throw new Error(
           'Image too large Please upload image which is less than 2.5MB'
@@ -106,6 +114,8 @@ const useFile = () => {
       }
 
       const data = await res?.json();
+
+      // handle face detection comparison error
       if (!res?.ok) {
         throw new Error(data?.message || 'SomethiNg went wrong');
       }
@@ -114,15 +124,12 @@ const useFile = () => {
         ...files,
         responseData: !!data?.matchedFaces?.length,
       }));
+
       setLoading((loader) => !loader);
     } catch (error) {
       notify(error?.message);
       setLoading((loader) => !loader);
     }
-  };
-
-  const instructions = () => {
-    notify(Instructions, false, true);
   };
 
   return [
@@ -133,7 +140,6 @@ const useFile = () => {
     compareImage,
     loading,
     responseData,
-    instructions,
   ];
 };
 
