@@ -80,6 +80,10 @@ const useFile = () => {
       previewImage: [],
       responseData: null,
     }));
+
+    document.querySelectorAll('input[type="file"]').forEach((input) => {
+      input.value = '';
+    });
   };
 
   const compareImage = async () => {
