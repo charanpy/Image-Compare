@@ -15,7 +15,7 @@ const Card = ({
   const onHandleFetchImage = (id) => {
     const url = imageURL?.current?.value;
 
-    if (!url || !url.startsWith('http')) return notify('Invalid IMage URL');
+    if (!url) return notify('Invalid IMage URL');
 
     fetchImage(url, id);
   };
