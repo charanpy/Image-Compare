@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Instructions from '../components/Instructions';
 import notify, { closeNotify } from '../utils/toast';
 
 const imageExt = ['jpg', 'jpeg', 'png'];
@@ -120,8 +121,11 @@ const useFile = () => {
     }
   };
 
+  const instructions = () => {
+    notify(Instructions, false, true);
+  };
+
   return [
-    image,
     previewImage,
     onHandleFileChange,
     onHandleReset,
@@ -129,6 +133,7 @@ const useFile = () => {
     compareImage,
     loading,
     responseData,
+    instructions,
   ];
 };
 

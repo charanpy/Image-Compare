@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Card from '../components/Card';
+import Instructions from '../components/Instructions';
 import Seo from '../components/Seo';
 import useFile from '../hooks/useFile';
 
@@ -9,7 +10,6 @@ const cards = ['Reference', 'Comparison'];
 
 export default function Home() {
   const [
-    image,
     previewImage,
     onHandleFileChange,
     onHandleReset,
@@ -18,9 +18,11 @@ export default function Home() {
     loading,
     responseData,
   ] = useFile();
+
   return (
     <>
       <Seo />
+      <Instructions />
       <div className='flex flex-row flex-wrap justify-center'>
         {cards.map((card, index) => (
           <Card
